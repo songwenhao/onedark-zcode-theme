@@ -1,0 +1,210 @@
+/* onedark-zcode-theme
+ * One Dark Pro（Binaryify/OneDark-Pro，MIT）配色移植到 ZCode Desktop。
+ *
+ * 本文件是纯 CSS 变量覆盖层，由 scripts/apply-theme.mjs 包裹标记注释后
+ * 追加到 app.asar 内 out/renderer/assets/styles-*.css 的末尾。
+ * 选择器与内置深色主题（.dark / .theme-zai-dark）相同、位置在其之后，
+ * 依据层叠规则后者生效；内置浅色主题与原生规则零改动。
+ *
+ * 背景阶梯：#282c34（主体）→ #21252b（侧栏/标题/页签）→ #2c313a（卡片/浮层）
+ * 品牌色：#61afef；正文：#abb2bf；语法/状态色取 One Dark 规范色。
+ */
+
+.dark,
+.theme-zai-dark {
+  /* One Dark 调色板（供本层内部引用） */
+  --odp-bg: #282c34;
+  --odp-bg-deep: #21252b;
+  --odp-bg-raised: #2c313a;
+  --odp-bg-hover: #353b45;
+  --odp-bg-active: #3e4451;
+  --odp-input: #1d1f23;
+  --odp-fg: #abb2bf;
+  --odp-fg-bright: #d7dae0;
+  --odp-blue: #61afef;
+  --odp-green: #98c379;
+  --odp-yellow: #e5c07b;
+  --odp-orange: #d19a66;
+  --odp-red: #e06c75;
+  --odp-purple: #c678dd;
+  --odp-cyan: #56b6c2;
+  --odp-gray: #5c6370;
+
+  /* 背景与前景 */
+  --color-background: var(--odp-bg);
+  --color-background-alt: #2c313a99;
+  --color-background-win-alt: var(--odp-bg-deep);
+  --color-sidebar: var(--odp-bg-deep);
+  --color-header: var(--odp-bg-deep);
+  --color-panel: var(--odp-bg-deep);
+  --color-foreground: var(--odp-fg);
+  --color-foreground-subtle: #abb2bf99;
+  --color-foreground-subtlest: #abb2bf4d;
+  --color-foreground-inverse: var(--odp-bg);
+  --color-primary: var(--odp-fg-bright);
+  --color-primary-foreground: var(--odp-bg);
+  --color-brand: var(--odp-blue);
+
+  /* 悬浮 / 选中 / 表面 */
+  --color-surface: #ffffff08;
+  --color-surface-hover: #ffffff14;
+  --color-hover: #ffffff0d;
+  --color-selected: var(--odp-bg-active);
+  --color-accent: #61afef2e;
+
+  /* 卡片 / 弹层 / 菜单 / 输入框 */
+  --color-card: var(--odp-bg-raised);
+  --color-card-selected: var(--odp-bg-hover);
+  --color-card-border: var(--color-border);
+  --color-popover: var(--odp-bg-raised);
+  --color-popover-header: var(--odp-bg-hover);
+  --color-popover-border: var(--color-border);
+  --color-popover-foreground: var(--odp-fg);
+  --color-menu: var(--odp-bg-raised);
+  --color-menu-hover: var(--odp-bg-hover);
+  --color-input: var(--odp-input);
+  --color-input-focused: var(--odp-input);
+  --color-input-border: var(--color-border);
+  --color-input-border-hover: #ffffff26;
+  --color-input-border-focused: var(--odp-blue);
+  --color-secondary: var(--odp-bg-hover);
+  --color-tag: var(--odp-bg-hover);
+  --color-toast: var(--odp-bg-raised);
+  --color-tooltip: var(--odp-bg-raised);
+  --color-tooltip-foreground: var(--odp-fg-bright);
+  --color-tooltip-tag: var(--odp-bg-active);
+  --color-tooltip-tag-foreground: #abb2bf99;
+  --color-tab: var(--odp-bg-deep);
+  --color-tab-active: var(--odp-bg);
+  --color-tab-border: var(--color-border);
+
+  /* 边框 */
+  --color-border: #ffffff14;
+  --color-border-hover: #ffffff26;
+
+  /* 状态色 */
+  --color-success: var(--odp-green);
+  --color-success-foreground: var(--odp-bg);
+  --color-destructive: var(--odp-red);
+  --color-destructive-foreground: #ffffff;
+  --color-warning: var(--odp-yellow);
+  --color-warning-foreground: var(--odp-bg);
+  --color-feedback-privacy-hint: var(--odp-yellow);
+
+  /* diff / git */
+  --color-diff-added: var(--odp-green);
+  --color-diff-added-foreground: var(--odp-bg);
+  --color-diff-removed: var(--odp-red);
+  --color-diff-removed-foreground: #ffffff;
+  --color-git-added: var(--odp-green);
+  --color-git-deleted: var(--odp-red);
+  --color-git-modified: var(--odp-yellow);
+  --color-git-renamed: var(--odp-blue);
+  --color-git-untracked: var(--odp-green);
+  --color-git-descendant: var(--odp-orange);
+  --color-git-ignored: var(--odp-gray);
+  --color-git-none: var(--odp-fg);
+
+  /* 对话轨迹（user / assistant / reasoning / 工具调用与结果） */
+  --color-trajectory-user: var(--odp-blue);
+  --color-trajectory-assistant: var(--odp-cyan);
+  --color-trajectory-reasoning: var(--odp-purple);
+  --color-trajectory-tool-call: var(--odp-yellow);
+  --color-trajectory-tool-result: var(--odp-cyan);
+
+  /* 交互提示 */
+  --color-interaction-ask-surface: #61afef1f;
+  --color-interaction-ask-foreground: var(--odp-blue);
+  --color-interaction-ask-fill: #98c3792e;
+  --color-interaction-confirmation-surface: #98c3792e;
+  --color-interaction-confirmation-foreground: var(--odp-green);
+
+  /* 会话节点 / 技能 / 插件 / 子代理（按类别的低饱和着色） */
+  --color-file-node: #61afef1f;
+  --color-file-node-foreground: var(--odp-blue);
+  --color-file-node-hover: #61afef33;
+  --color-command-node: #abb2bf1f;
+  --color-command-node-foreground: #b6bfca;
+  --color-command-node-hover: #abb2bf33;
+  --color-session-node: #56b6c21f;
+  --color-session-node-foreground: var(--odp-cyan);
+  --color-session-node-hover: #56b6c233;
+  --color-plugin-node: #d19a661f;
+  --color-plugin-node-foreground: var(--odp-orange);
+  --color-plugin-node-hover: #d19a6633;
+  --color-skill-node: #c678dd1f;
+  --color-skill-node-foreground: var(--odp-purple);
+  --color-skill-node-hover: #c678dd33;
+  --color-subagent-node: #98c3791f;
+  --color-subagent-node-foreground: var(--odp-green);
+  --color-subagent-node-hover: #98c37933;
+  --color-idle-task: var(--odp-purple);
+  --color-idle-task-surface: #2a2135;
+
+  /* 上下文占比 / 用量图表 / 热力图 */
+  --color-context-breakdown-1: #61afef;
+  --color-context-breakdown-2: #7bb9f2;
+  --color-context-breakdown-3: #95c4f5;
+  --color-context-breakdown-4: #afcff7;
+  --color-context-breakdown-5: #c9daf9;
+  --color-context-breakdown-6: #dee6fb;
+  --color-context-breakdown-7: #eff2fd;
+  --color-usage-chart-1: var(--odp-blue);
+  --color-usage-chart-2: var(--odp-green);
+  --color-usage-chart-3: var(--odp-purple);
+  --color-usage-chart-4: var(--odp-red);
+  --color-usage-chart-5: var(--odp-yellow);
+  --color-usage-chart-6: var(--odp-cyan);
+  --color-usage-heatmap-0: color-mix(in srgb, #61afef 0%, var(--color-surface));
+  --color-usage-heatmap-1: color-mix(in srgb, #61afef 24%, var(--color-surface));
+  --color-usage-heatmap-2: color-mix(in srgb, #61afef 42%, var(--color-surface));
+  --color-usage-heatmap-3: color-mix(in srgb, #61afef 62%, var(--color-surface));
+  --color-usage-heatmap-4: color-mix(in srgb, #85c1f0 78%, var(--color-surface));
+
+  /* 内嵌终端（One Dark ANSI 16 色） */
+  --color-terminal-bg: var(--odp-bg);
+  --color-terminal-fg: var(--odp-fg);
+  --color-terminal-black: #282c34;
+  --color-terminal-bright-black: var(--odp-gray);
+  --color-terminal-red: var(--odp-red);
+  --color-terminal-bright-red: var(--odp-red);
+  --color-terminal-green: var(--odp-green);
+  --color-terminal-bright-green: var(--odp-green);
+  --color-terminal-yellow: var(--odp-yellow);
+  --color-terminal-bright-yellow: var(--odp-yellow);
+  --color-terminal-blue: var(--odp-blue);
+  --color-terminal-bright-blue: var(--odp-blue);
+  --color-terminal-magenta: var(--odp-purple);
+  --color-terminal-bright-magenta: var(--odp-purple);
+  --color-terminal-cyan: var(--odp-cyan);
+  --color-terminal-bright-cyan: var(--odp-cyan);
+  --color-terminal-white: var(--odp-fg);
+  --color-terminal-bright-white: var(--odp-fg-bright);
+  --color-terminal-cursor: var(--odp-blue);
+  --color-terminal-cursor-accent: var(--odp-bg);
+  --color-terminal-selection: #61afef3d;
+  --color-terminal-selection-inactive: #ffffff1a;
+
+  /* 查找高亮 */
+  --color-find-highlight: #5c4a1e;
+  --color-find-highlight-active: #b3772d;
+
+  /* 工作流细线与渐变文字 */
+  --color-workflow-rule: #ffffff12;
+  --animated-gradient-text-strong: var(--odp-fg-bright);
+  --animated-gradient-text-soft: #ffffff2e;
+
+  /* 高速模式的紫色光效改为 One Dark 蓝色系 */
+  --color-highspeed-accent: var(--odp-blue);
+  --color-highspeed-composer-surface: var(--odp-bg-deep);
+  --color-highspeed-glow-01: #61afef03;
+  --color-highspeed-glow-04: #61afef0a;
+  --color-highspeed-glow-15: #61afef26;
+  --color-highspeed-glow-26: #61afef42;
+  --color-highspeed-particle: #61afefc2;
+  --color-highspeed-particle-highlight: var(--odp-blue);
+  --color-highspeed-particle-highlight-glow: #61afefad;
+  --color-highspeed-model-sweep-highlight: #e6f1fb;
+  --highspeed-sidebar-model-icon: var(--odp-blue);
+  --highspeed-sidebar-model-gradient: linear-gradient(90deg, #56b6c2 0%, #61afef 50%, #98c379 100%);
+}

@@ -1,0 +1,15 @@
+{
+  "name": "onedark-zcode-theme",
+  "version": "0.1.0",
+  "description": "One Dark Pro theme layer for ZCode Desktop: overrides the built-in dark theme's semantic CSS variables inside app.asar",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "apply": "node scripts/apply-theme.mjs",
+    "dry-run": "node scripts/apply-theme.mjs --dry-run",
+    "restore": "node scripts/apply-theme.mjs --restore"
+  },
+  "dependencies": {
+    "@electron/asar": "^3.2.0"
+  }
+}
