@@ -66,7 +66,7 @@
   --color-input-focused: var(--odp-input);
   --color-input-border: var(--color-border);
   --color-input-border-hover: #ffffff26;
-  --color-input-border-focused: var(--odp-blue);
+  --color-input-border-focused: var(--color-border-hover);
   --color-secondary: var(--odp-bg-hover);
   --color-tag: var(--odp-bg-hover);
   --color-toast: var(--odp-bg-raised);
