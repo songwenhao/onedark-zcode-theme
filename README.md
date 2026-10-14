@@ -44,7 +44,7 @@ npm run apply
 npm run restore
 ```
 
-从 `backup\` 恢复最新的官方 `app.asar` 原版备份，重启 ZCode 即可。删除本目录即完全移除主题包本体。
+从 `backup\` 恢复最新的**官方原版备份**（`.orig`，脚本会按内容校验备份不含主题层，补丁版本间的 `.prev` 存档不会被误选），重启 ZCode 即可。删除本目录即完全移除主题包本体。
 
 ## 更新后重新应用
 
@@ -61,7 +61,7 @@ npm run restore
 onedark-zcode-theme/
   onedark.css            主题覆盖层（One Dark Pro 语义变量映射）
   scripts/apply-theme.mjs 应用 / 暂存（--dry-run）/ 还原（--restore）
-  backup/                官方 app.asar 原版备份（应用时自动生成）
+  backup/                官方原版备份（.orig）与上一版存档（.prev），应用时自动生成
   build/                 解包与暂存产物（可随时删除）
 ```
 

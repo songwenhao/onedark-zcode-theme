@@ -12,7 +12,13 @@
  *                                            Program Files 需管理员权限）
  *   node scripts/apply-theme.mjs --dry-run   只解包、打补丁并暂存到
  *                                            build/app.asar，不安装
- *   node scripts/apply-theme.mjs --restore   还原 backup/ 下最新的原版备份
+ *   node scripts/apply-theme.mjs --restore   还原 backup/ 下最新的官方
+ *                                            原版备份（.orig，经内容校验
+ *                                            不含主题层）
+ *
+ * 备份命名：app.asar.orig-<时间戳> 只记录官方原版（首次应用或应用升级后的
+ * 官方包时写入）；app.asar.prev-<时间戳> 是对已打补丁的包重复应用时的
+ * 上一版存档，还原时永远不会选中。
  *
  * 可用 --asar <路径> 指定其他 app.asar（默认取当前平台的安装位置）。
  * 重复执行是幂等的：已有的主题层会先被剥掉再追加最新版本。
@@ -163,19 +169,45 @@ async function buildPatchedAsar(asarMod, opts, stagedAsar) {
   console.log(`  sha256 = ${sha256(stagedAsar)}`)
 }
 
-function listBackups(backupDir) {
+/** 检测 asar 内是否含主题层标记（区分官方原版与打过补丁的包）。 */
+function hasThemeLayer(asarMod, archive) {
+  const entries = asarMod.listPackage(archive).map((p) => String(p).replace(/^[\\/]+/, ''))
+  for (const entry of entries) {
+    if (!/^out[\\/]renderer[\\/]assets[\\/]styles-.*\.css$/.test(entry)) continue
+    let text
+    try {
+      text = Buffer.from(asarMod.extractFile(archive, entry)).toString('utf8')
+    } catch {
+      const swapped = entry.split('\\').join('/')
+      try {
+        text = Buffer.from(asarMod.extractFile(archive, swapped)).toString('utf8')
+      } catch {
+        continue
+      }
+    }
+    if (text.includes('onedark-zcode-theme')) return true
+  }
+  return false
+}
+
+/** 按前缀列出备份，按时间戳升序。 */
+function listBackups(backupDir, prefix = 'app.asar.orig-') {
   if (!existsSync(backupDir)) return []
   return readdirSync(backupDir)
-    .filter((f) => /^app\.asar\.orig-/.test(f))
+    .filter((f) => f.startsWith(prefix))
     .map((f) => join(backupDir, f))
     .sort()
 }
 
-function install(opts, stagedAsar) {
+function install(opts, stagedAsar, asarMod) {
   const backupDir = join(pkgRoot, 'backup')
   mkdirSync(backupDir, { recursive: true })
   const stamp = new Date().toISOString().replace(/[:T]/g, '-').slice(0, 19)
-  const backupPath = join(backupDir, `app.asar.orig-${stamp}`)
+  // 只在当前包是官方原版（无主题层）时写 .orig 备份；对打过补丁的包重复
+  // apply 时写 .prev 备份，避免还原时误选到补丁版本。
+  const pristine = !hasThemeLayer(asarMod, opts.asar)
+  const prefix = pristine ? 'app.asar.orig-' : 'app.asar.prev-'
+  const backupPath = join(backupDir, `${prefix}${stamp}`)
   try {
     copyFileSync(opts.asar, backupPath)
     copyFileSync(stagedAsar, opts.asar)
@@ -187,10 +219,17 @@ function install(opts, stagedAsar) {
     console.error('  2. 使用管理员身份运行终端后再执行（写入 Program Files 需要权限）。')
     process.exit(1)
   }
-  for (const old of listBackups(backupDir).slice(0, -BACKUP_KEEP)) {
+  for (const old of listBackups(backupDir, 'app.asar.orig-').slice(0, -BACKUP_KEEP)) {
     rmSync(old, { force: true })
   }
-  console.log(`已备份原版：${backupPath}`)
+  for (const old of listBackups(backupDir, 'app.asar.prev-').slice(0, -2)) {
+    rmSync(old, { force: true })
+  }
+  if (pristine) {
+    console.log(`已备份官方原版：${backupPath}`)
+  } else {
+    console.log(`已备份上一版（当前包已含主题层，.orig 原版备份保持不变）：${backupPath}`)
+  }
   console.log(`  sha256 = ${sha256(backupPath)}`)
   console.log('已安装 One Dark Pro 主题层，请重启 ZCode 并在设置中选择"深色"主题。')
 }
@@ -201,10 +240,18 @@ async function main() {
   const asarMod = asarModule.default ?? asarModule
 
   if (opts.restore) {
-    const [newest] = listBackups(join(pkgRoot, 'backup')).reverse()
+    // 只认 .orig 前缀且经内容校验无主题层的备份；.prev 是补丁版本间的
+    // 存档，还原不能用它。
+    const candidates = listBackups(join(pkgRoot, 'backup'), 'app.asar.orig-')
+      .filter((b) => !hasThemeLayer(asarMod, b))
+    const newest = candidates.at(-1)
     if (!newest) {
-      console.error('backup/ 下没有可用的原版备份。')
+      console.error('backup/ 下没有可用的官方原版备份（.orig 且无主题层）。')
       process.exit(1)
+    }
+    if (opts.dryRun) {
+      console.log(`--dry-run：将还原 ${newest}（共 ${candidates.length} 个可用原版备份），未写入。`)
+      return
     }
     try {
       copyFileSync(newest, opts.asar)
@@ -234,7 +281,7 @@ async function main() {
     return
   }
   console.log(`原版 sha256 = ${sha256(opts.asar)}`)
-  install(opts, stagedAsar)
+  install(opts, stagedAsar, asarMod)
 }
 
 main().catch((err) => {

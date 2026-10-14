@@ -1,6 +1,6 @@
 {
   "name": "onedark-zcode-theme",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "One Dark Pro theme layer for ZCode Desktop: overrides the built-in dark theme's semantic CSS variables inside app.asar",
   "license": "MIT",
   "type": "module",
