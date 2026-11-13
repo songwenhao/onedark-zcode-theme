@@ -86,7 +86,8 @@ function findThemeStylesheet(buildDir) {
     if (!file.endsWith('.css')) continue
     const full = join(assetsDir, file)
     const text = readFileSync(full, 'utf8')
-    if (text.includes('--theme-zai-dark') && text.includes('--color-background')) return full
+    // 3.18.0 起不再有 --theme-zai-dark 变量，改按 .theme-zai-dark 选择器定位。
+    if (text.includes('.theme-zai-dark') && text.includes('--color-background')) return full
     if (text.includes('--color-background')) fallback = full
   }
   if (!fallback) throw new Error('未找到内置主题样式表（styles-*.css）')

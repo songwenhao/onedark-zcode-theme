@@ -207,4 +207,76 @@
   --color-highspeed-model-sweep-highlight: #e6f1fb;
   --highspeed-sidebar-model-icon: var(--odp-blue);
   --highspeed-sidebar-model-gradient: linear-gradient(90deg, #56b6c2 0%, #61afef 50%, #98c379 100%);
+
+  /* ── ZCode 3.18.0 新增变量（20261113 适配） ── */
+
+  /* 用户消息气泡与工作流轨迹（中性白透明度，直接沿用） */
+  --color-user-message-bubble: #ffffff14;
+  --color-workflow-trace: #ffffff59;
+  --color-workflow-trace-strong: #fff9;
+
+  /* 面板拖拽手柄 / 语音输入浮层 */
+  --color-resize-handle: #61afef99;
+  --color-voice-input-surface: color-mix(in srgb, var(--odp-blue) 14%, var(--odp-bg-deep));
+  --color-voice-input-wave: var(--odp-blue);
+
+  /* 状态浮层表面（success / progress / warning / destructive） */
+  --color-success-surface: #98c3792e;
+  --color-success-surface-foreground: var(--odp-green);
+  --color-progress-surface: color-mix(in srgb, var(--odp-blue) 16%, var(--odp-bg-deep));
+  --color-progress-surface-foreground: var(--odp-blue);
+  --color-warning-surface: #e5c07b26;
+  --color-warning-surface-foreground: var(--odp-yellow);
+  --color-destructive-surface: #e06c7526;
+  --color-destructive-surface-foreground: var(--odp-red);
+
+  /* 远程连接（SSH / WSL / Docker）徽标 */
+  --color-remote-foreground-muted: #abb2bfb3;
+  --color-remote-ssh-surface: #61afef2e;
+  --color-remote-ssh-foreground: var(--odp-blue);
+  --color-remote-ssh-border: #2c4f6c;
+  --color-remote-wsl-surface: #98c3792e;
+  --color-remote-wsl-foreground: var(--odp-green);
+  --color-remote-wsl-border: #445836;
+  --color-remote-docker-surface: #c678dd2e;
+  --color-remote-docker-foreground: var(--odp-purple);
+  --color-remote-docker-border: #593663;
+
+  /* 插件付费计划徽标 */
+  --color-plugin-paid-plan-badge: #4a3520;
+  --color-plugin-paid-plan-badge-foreground: var(--odp-orange);
+
+  /* 图标最淡透明度（中性，保持原值） */
+  --lucide-subtlest-opacity: .3;
+
+  /* 高速模式：边框预备态与侧栏卡片占位（原值即透明） */
+  --color-highspeed-composer-border-pre-animation: transparent;
+  --highspeed-sidebar-card-surface: transparent;
+  --highspeed-sidebar-card-outline: transparent;
+
+  /* 高速模式分享卡片 / 对话框（中性色并入 One Dark，渐变条按色相重映射） */
+  --highspeed-share-card-light-background-opacity: 0;
+  --highspeed-share-card-dark-background-opacity: 1;
+  --color-highspeed-share-card-view-border: #ffffff70;
+  --color-highspeed-share-foreground: var(--odp-fg-bright);
+  --color-highspeed-share-foreground-subtle: #abb2bf99;
+  --color-highspeed-share-control-hover: #ffffff1a;
+  --color-highspeed-share-dialog-surface: var(--odp-bg-deep);
+  --color-highspeed-share-dialog-border: #ffffff1f;
+  --highspeed-share-dialog-box-shadow: 0 63px 18px #0000, 0 41px 16px #00000003, 0 23px 14px #0000000d, 0 10px 10px #00000017, 0 3px 6px #0000001a;
+  --color-highspeed-share-dialog-foreground: var(--odp-fg-bright);
+  --color-highspeed-share-dialog-muted: #abb2bfb3;
+  --color-highspeed-share-dialog-noise-dark-opacity: .06;
+  --color-highspeed-share-dialog-noise-light-opacity: 0;
+  --color-highspeed-share-dialog-noise-opacity: 1;
+  --color-highspeed-share-dialog-control-hover: #ffffff1a;
+  --color-highspeed-share-dialog-stats-border: #ffffff1a;
+  --color-highspeed-share-dialog-bars-start: var(--odp-red);
+  --color-highspeed-share-dialog-bars-mid: var(--odp-yellow);
+  --color-highspeed-share-dialog-bars-end: var(--odp-green);
+  --color-highspeed-share-dialog-marker-glow: #98c37999;
+  --color-highspeed-share-dialog-benefit-text: #abb2bfb3;
+  --color-highspeed-share-dialog-pill-text: #abb2bfb3;
+  --color-highspeed-share-dialog-input-border: #ffffff1a;
+  --color-highspeed-share-dialog-bars-baseline: #ffffff2e;
 }
